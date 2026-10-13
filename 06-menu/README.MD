@@ -86,6 +86,13 @@ terminal 1: CARREGUE O STUDIO ANDROID
 ```bash
 cd /usr/local/android-studio/bin
 /usr/local/android-studio/bin/studio.sh
+ou 
+
+  ~/Android/Sdk/emulator/emulator -list-avds
+  ~/Android/Sdk/emulator/emulator -avd NOME_DO_AVD
+  ## meu caso é: Medium_Phone_API_35-ext15_32GB_-_expo_57.0.9
+  ~/Android/Sdk/emulator/emulator -avd  Medium_Phone_API_35-ext15_32GB_-_expo_57.0.9
+
 ```
 terminal 2: EXECUTE A APLICAÇÃO
 ```bash
@@ -95,4 +102,17 @@ npx expo start
 vamos usar a 57:
 ? Expo Go 57.0.9 is recommended for SDK 57.0.0 (Medium_Phone_API_35-ext15_32GB_-_expo_54.0.7 is using 54.0.7). Learn more. Install the recommended Expo Go version? › (Y/n)
 ```
+### SafeAreaView is deprecated
+SafeAreaView que vem do react-native. Ele foi marcado como deprecated nas versões recentes (a partir do RN 0.81, que é o que o Expo SDK 54+ usa), porque só funciona no iOS e não faz nada no Android.
 
+A solução recomendada é usar o react-native-safe-area-context:
+
+> npx expo install react-native-safe-area-context
+E troque o código do import, só isto. 
+```
+// Antes (deprecated)
+import { SafeAreaView } from 'react-native';
+
+// Depois
+import { SafeAreaView } from 'react-native-safe-area-context';
+```

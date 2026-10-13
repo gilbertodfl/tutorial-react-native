@@ -4,10 +4,20 @@ import {
   SafeAreaProvider,
 } from 'react-native-safe-area-context';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import type {ComponentType} from 'react';
 import ActivityIndicatorScreen from './ActivityIndicator';
+import ExemploInput from './ExemploInput';
 import ModalExample from './ModalExample';
 
-type Screen = 'menu' | 'activityIndicator' | 'modal';
+type ExampleScreenProps = {onBack: () => void};
+type Example = {
+  id: string;
+  title: string;
+  description: string;
+  accessibilityLabel: string;
+  color: string;
+  component: ComponentType<ExampleScreenProps>;
+};
 
 const colors = {
   background: '#F5F3FF',
@@ -18,51 +28,72 @@ const colors = {
   blue: '#2563EB',
 };
 
+const examples: Example[] = [
+  {
+    id: 'activityIndicator',
+    title: 'ACTIVITY INDICATOR',
+    description: 'Veja tamanhos, cores e um exemplo de carregamento.',
+    accessibilityLabel: 'Abrir exemplo Activity Indicator',
+    color: colors.violet,
+    component: ActivityIndicatorScreen,
+  },
+  {
+    id: 'modal',
+    title: 'ABRIR MODAL',
+    description: 'Conheça uma tela com um modal de exemplo.',
+    accessibilityLabel: 'Abrir exemplo de modal',
+    color: colors.blue,
+    component: ModalExample,
+  },
+  {
+    id: 'input',
+    title: 'EXEMPLOS DE INPUT',
+    description: 'Explore campos de email, senha, texto, URL, número e data.',
+    accessibilityLabel: 'Abrir exemplos de input',
+    color: '#0F766E',
+    component: ExemploInput,
+  },
+];
+
 const App = () => {
-  const [screen, setScreen] = useState<Screen>('menu');
+  const [selectedExample, setSelectedExample] = useState<string | null>(null);
+  const activeExample = examples.find(example => example.id === selectedExample);
+
+  if (activeExample) {
+    const ScreenComponent = activeExample.component;
+
+    return (
+      <SafeAreaProvider>
+        <ScreenComponent onBack={() => setSelectedExample(null)} />
+      </SafeAreaProvider>
+    );
+  }
 
   return (
     <SafeAreaProvider>
-      {screen === 'activityIndicator' ? (
-        <ActivityIndicatorScreen onBack={() => setScreen('menu')} />
-      ) : screen === 'modal' ? (
-        <ModalExample onBack={() => setScreen('menu')} />
-      ) : (
-        <SafeAreaView style={styles.safeArea}>
-          <View style={styles.container}>
-            <View style={styles.heading}>
-              <Text style={styles.title}>Exemplos</Text>
-              <Text style={styles.subtitle}>
-                Escolha um componente para explorar.
-              </Text>
-            </View>
-
-            <TouchableOpacity
-              style={[styles.menuButton, styles.activityButton]}
-              onPress={() => setScreen('activityIndicator')}
-              activeOpacity={0.85}
-              accessibilityRole="button"
-              accessibilityLabel="Abrir exemplo Activity Indicator">
-              <Text style={styles.buttonTitle}>ACTIVITY INDICATOR</Text>
-              <Text style={styles.buttonDescription}>
-                Veja tamanhos, cores e um exemplo de carregamento.
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.menuButton, styles.modalButton]}
-              onPress={() => setScreen('modal')}
-              activeOpacity={0.85}
-              accessibilityRole="button"
-              accessibilityLabel="Abrir exemplo de modal">
-              <Text style={styles.buttonTitle}>ABRIR MODAL</Text>
-              <Text style={styles.buttonDescription}>
-                Conheça uma tela com um modal de exemplo.
-              </Text>
-            </TouchableOpacity>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.container}>
+          <View style={styles.heading}>
+            <Text style={styles.title}>Exemplos</Text>
+            <Text style={styles.subtitle}>
+              Escolha um componente para explorar.
+            </Text>
           </View>
-        </SafeAreaView>
-      )}
+
+          {examples.map(example => (
+            <TouchableOpacity
+              key={example.id}
+              style={[styles.menuButton, {backgroundColor: example.color}]}
+              onPress={() => setSelectedExample(example.id)}
+              activeOpacity={0.85}
+              accessibilityRole="button"
+              accessibilityLabel={example.accessibilityLabel}>
+              <Text style={styles.buttonTitle}>{example.title}</Text>
+              <Text style={styles.buttonDescription}>{example.description}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </SafeAreaView>
     </SafeAreaProvider>
   );
 };
@@ -100,12 +131,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 10,
     shadowOffset: {width: 0, height: 4},
-  },
-  activityButton: {
-    backgroundColor: colors.violet,
-  },
-  modalButton: {
-    backgroundColor: colors.blue,
   },
   buttonTitle: {
     color: colors.surface,

@@ -1,118 +1,79 @@
-## objetivo: explorar Platform
+# Exemplos de React Native
 
-https://reactnative.dev/docs/button
+Projeto didático para explorar componentes e recursos comuns de aplicações React Native com Expo. Cada exemplo fica em uma tela própria e pode ser acessado pelo menu inicial.
 
-## O que exploramos aqui?
- Como identificar quem qual Platform está rodando o aplicativo e assim customizar em alguam situação. 
- Também temos o uso de :
+## O que é explorado
 
- - InfoCard
- - StyleSheet.create
- - JSON.stringify
- - BooleanPill
-# Criando um projeto básico em React Native
+- **Estrutura e navegação do exemplo:** menu de demonstrações, componentes reutilizáveis, propriedades e estado com React.
+- **Texto e layout:** `Text`, `View`, `StyleSheet`, espaçamento e composição de telas.
+- **Área segura e rolagem:** `SafeAreaView` do `react-native-safe-area-context` e `ScrollView`.
+- **Indicadores e janelas:** `ActivityIndicator` e `Modal`.
+- **Campos de formulário:** `TextInput` para email, senha, URL, texto multilinha, números e data; teclados apropriados, entrada controlada e formatação.
+- **Ícones:** símbolos comuns de interface e ícones vetoriais Ionicons com `@react-native-vector-icons/ionicons`.
+- **Imagens:** `ImageBackground` com imagem local e remota, além de opções de ajuste como `cover`.
+- **Acessibilidade básica:** rótulos e papéis para controles interativos.
 
-A forma mais simples e recomendada hoje é usar o **Expo**.
+## Telas de exemplo
 
-## Pré-requisitos
+As telas estão em `src/app/Home/` e são registradas na lista `examples` de `App.tsx`.
 
-- **Node.js** (versão LTS) instalado. Confira com `node -v`.
-- Um editor, como o VS Code.
-- Um celular com o app **Expo Go** instalado (Android ou iOS), ou um emulador.
+| Tela | Arquivo | Conteúdo |
+| --- | --- | --- |
+| Activity Indicator | `ActivityIndicator.tsx` | Tamanhos, cores e estado de carregamento |
+| Modal | `ModalExample.tsx` | Abertura, fechamento e conteúdo de um modal |
+| Inputs | `ExemploInput.tsx` | Campos de email, texto, senha, URL, número e data |
+| Ícones | `ExemploIcons.tsx` | Símbolos para início, busca, perfil e configurações |
+| Ícones vetoriais | `ExemploExpoIcons.tsx` | Ionicons com tamanho e cor configuráveis |
+| Imagem de fundo | `ImageBackground.tsx` | Imagens locais e remotas com `ImageBackground` |
 
-## Passo a passo
+## Requisitos
 
-### 1. Crie o projeto
+- Node.js compatível com Expo SDK 57 (Node.js 22.13 ou superior).
+- npm, instalado junto com o Node.js.
+- Expo Go compatível com o SDK do projeto, ou um emulador Android/iOS.
 
-```bash
-npx create-expo-app@latest meu-app
-```
+## Como executar
 
-### 2. Entre na pasta
-
-```bash
-cd meu-app
-
-npx expo install react-dom react-native-web
-```
-
-### 3. Inicie o servidor de desenvolvimento
+Na pasta do projeto, instale as dependências e inicie o servidor Expo:
 
 ```bash
+npm install
 npx expo start
 ```
 
-### 4. Abra o app
+No terminal do Expo:
 
-- **No celular:** escaneie o QR code que aparece no terminal com o Expo Go (Android) ou com a câmera (iOS). O celular e o computador precisam estar na mesma rede Wi-Fi.
-- **No emulador Android:** pressione `a` no terminal (requer o Android Studio configurado).
-- **No simulador iOS:** pressione `i` (somente em Mac).
-- **No navegador:** pressione `w`.
+- Escaneie o QR code com o Expo Go para abrir no celular.
+- Pressione `a` para abrir no emulador Android.
+- Pressione `i` para abrir no simulador iOS (macOS).
+- Pressione `w` para abrir no navegador.
 
-## Projeto mínimo
+Os comandos `npm run android`, `npm run ios` e `npm run web` também estão disponíveis no `package.json`.
 
-O template padrão já vem com navegação e vários arquivos de exemplo. Para começar do zero, use o template em branco:
+## Estrutura do projeto
 
-```bash
-npx create-expo-app@latest meu-app --template blank
+```text
+.
+├── app.json                    # Configuração do Expo
+├── index.js                    # Registra o componente raiz
+├── package.json                # Dependências e scripts
+├── assets/                     # Ícones e recursos da aplicação
+└── src/
+    ├── app/Home/               # Menu e telas de demonstração
+    └── app/img/                # Imagens usadas nos exemplos
 ```
 
-Ele cria um `App.js` simples. Depois, instale a biblioteca de área segura:
+## Adicionar uma demonstração ao menu
 
-```bash
-npx expo install react-native-safe-area-context
-```
+Crie uma tela em `src/app/Home/` que receba a propriedade `onBack`, importe-a em `App.tsx` e adicione uma entrada ao array `examples`, incluindo título, descrição, cor, rótulo de acessibilidade e componente.
 
-E crie o arquivo `style.js` na mesma pasta do `App.js`.
-
-## Estrutura básica do projeto
-
-```
-meu-app/
-├── src/app/Home/App.tjs    # componente principal
-├── app.json        # configurações do app
-├── package.json    # dependências e scripts
-├── assets/         # imagens e ícones
-└── node_modules/   # bibliotecas instaladas
-```
-
-## Observação
-
-Dependendo da versão do template, o arquivo principal pode ser `app/index.tsx` (com Expo Router) em vez de `App.js`. Nesse caso, use o template `blank` indicado acima.
-
-
-## COMO RODAR O PROJETO
-terminal 1: CARREGUE O STUDIO ANDROID
-```bash
-cd /usr/local/android-studio/bin
-/usr/local/android-studio/bin/studio.sh
-ou 
-
-  ~/Android/Sdk/emulator/emulator -list-avds
-  ~/Android/Sdk/emulator/emulator -avd NOME_DO_AVD
-  ## meu caso é: Medium_Phone_API_35-ext15_32GB_-_expo_57.0.9
-  ~/Android/Sdk/emulator/emulator -avd  Medium_Phone_API_35-ext15_32GB_-_expo_57.0.9
-
-```
-terminal 2: EXECUTE A APLICAÇÃO
-```bash
-
-npx expo start
-
-vamos usar a 57:
-? Expo Go 57.0.9 is recommended for SDK 57.0.0 (Medium_Phone_API_35-ext15_32GB_-_expo_54.0.7 is using 54.0.7). Learn more. Install the recommended Expo Go version? › (Y/n)
-```
-### SafeAreaView is deprecated
-SafeAreaView que vem do react-native. Ele foi marcado como deprecated nas versões recentes (a partir do RN 0.81, que é o que o Expo SDK 54+ usa), porque só funciona no iOS e não faz nada no Android.
-
-A solução recomendada é usar o react-native-safe-area-context:
-
-> npx expo install react-native-safe-area-context
-E troque o código do import, só isto. 
-```
-// Antes (deprecated)
-import { SafeAreaView } from 'react-native';
-
-// Depois
-import { SafeAreaView } from 'react-native-safe-area-context';
+```tsx
+{
+  id: 'novaTela',
+  title: 'NOVA DEMONSTRAÇÃO',
+  description: 'Descrição curta do exemplo.',
+  accessibilityLabel: 'Abrir nova demonstração',
+  color: '#665A88',
+  component: NovaTela,
+}
 ```

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ActivityIndicator",
-    "slug": "ActivityIndicator",
+    "name": "Exemplos React Native",
+    "slug": "ExemplosReactNative",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

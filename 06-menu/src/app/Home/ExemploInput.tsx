@@ -30,6 +30,22 @@ const ExemploInput = ({onBack}: ExemploInputProps) => {
   const [number, setNumber] = useState('');
   const [date, setDate] = useState('');
 
+  const handleNumberChange = (text: string) => {
+    setNumber(text.replace(/\D/g, ''));
+  };
+
+  const handleDateChange = (text: string) => {
+    // remove tudo que não é digito e limita a 8 caracteres (DDMMYYYY)
+    const digits = text.replace(/\D/g, '').slice(0, 8);
+    const formattedDate = digits
+      // aqui usamos regex para inserir as barras no formato DD/MM/YYYY
+      // Se for 2 digitos, insere a primeira barra, se for 4, insere a segunda barra
+      .replace(/^(\d{2})(\d)/, '$1/$2')
+      .replace(/^(\d{2}\/\d{2})(\d)/, '$1/$2');
+
+    setDate(formattedDate);
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
@@ -116,9 +132,10 @@ const ExemploInput = ({onBack}: ExemploInputProps) => {
           <TextInput
             style={styles.input}
             value={number}
-            onChangeText={setNumber}
+            onChangeText={handleNumberChange}
             placeholder="12345"
             keyboardType="number-pad"
+            inputMode="numeric"
             accessibilityLabel="Somente números"
           />
         </View>
@@ -131,9 +148,11 @@ const ExemploInput = ({onBack}: ExemploInputProps) => {
           <TextInput
             style={styles.input}
             value={date}
-            onChangeText={setDate}
+            onChangeText={handleDateChange}
             placeholder="DD/MM/AAAA"
             keyboardType="number-pad"
+            inputMode="numeric"
+            maxLength={10}
             accessibilityLabel="Data no formato dia, mês e ano"
           />
         </View>

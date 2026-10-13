@@ -3,11 +3,14 @@ import {
   SafeAreaView,
   SafeAreaProvider,
 } from 'react-native-safe-area-context';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import type {ComponentType} from 'react';
 import ActivityIndicatorScreen from './ActivityIndicator';
 import ExemploInput from './ExemploInput';
+import ExemploIcons from './ExemploIcons';
+import ExemploExpoIcons from './ExemploExpoIcons';
 import ModalExample from './ModalExample';
+import ExemploImageBackground from './ImageBackground';
 
 type ExampleScreenProps = {onBack: () => void};
 type Example = {
@@ -24,8 +27,8 @@ const colors = {
   surface: '#FFFFFF',
   ink: '#1E1B4B',
   muted: '#6B7280',
-  violet: '#7C3AED',
-  blue: '#2563EB',
+  violet: '#665A88',
+  blue: '#536B84',
 };
 
 const examples: Example[] = [
@@ -50,9 +53,34 @@ const examples: Example[] = [
     title: 'EXEMPLOS DE INPUT',
     description: 'Explore campos de email, senha, texto, URL, número e data.',
     accessibilityLabel: 'Abrir exemplos de input',
-    color: '#0F766E',
+    color: '#52756E',
     component: ExemploInput,
   },
+  {
+    id: 'icons',
+    title: 'EXEMPLOS DE ÍCONES',
+    description: 'Veja quatro ícones comuns em aplicativos.',
+    accessibilityLabel: 'Abrir exemplos de ícones',
+    color: '#76647D',
+    component: ExemploIcons,
+  },
+  {
+    id: 'expoIcons',
+    title: 'ÍCONES VETORIAIS',
+    description: 'Explore os ícones Ionicons do pacote Expo Vector Icons.',
+    accessibilityLabel: 'Abrir exemplos de ícones vetoriais',
+    color: '#665A88',
+    component: ExemploExpoIcons,
+  },
+  {
+    id: 'ExemploImageBackground',
+    title: 'Imagem de fundo',
+    description: 'Exemplo de imagem de fundo.',
+    accessibilityLabel: 'Abrir exemplos de imagem de fundo',
+    color: '#665A88',
+    component: ExemploImageBackground,
+  },
+  
 ];
 
 const App = () => {
@@ -72,7 +100,7 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeArea}>
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.heading}>
             <Text style={styles.title}>Exemplos</Text>
             <Text style={styles.subtitle}>
@@ -92,7 +120,7 @@ const App = () => {
               <Text style={styles.buttonDescription}>{example.description}</Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -104,7 +132,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     padding: 24,
     gap: 16,
